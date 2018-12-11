@@ -9,7 +9,7 @@
 </head>
 <body>
 <%
-String jspPath = "/Users/peterzolcer/eclipse-workspace/CC/WebContent/WEB-INF/sample.txt";
+String jspPath = "D:\\Martin\\Documents\\UNI\\WS 18\\CC\\PaaS\\petovProjekt\\CC-TextChecker\\CC\\WebContent\\WEB-INF\\README.txt";
 BufferedReader reader = new BufferedReader(new FileReader(jspPath));
 //BufferedReader br = new InputStreamReader(new FileInputStream(txtFilePath));
 StringBuilder sb = new StringBuilder();
