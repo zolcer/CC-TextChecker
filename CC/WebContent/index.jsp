@@ -13,13 +13,13 @@
 	<h2>Please choose file or copy your text to the textfield</h2>
 	<h3>Select a file to check for similarities</h3>
 	<form action="IndexServlet" method="post" enctype="multipart/form-data">
-		<input class="w3-margin w3-round" type="file" name="file" />
+		<input class="w3-margin w3-round" type="file" name="file" required/>
 		<br>
 		<input class="w3-margin w3-button w3-round w3-border" type="submit" />
 	</form>
 	<h3>Copy text which you can check for similarities</h3>
 	<form action="IndexServlet" method="post">
-		<textArea class="w3-margin w3-round" name="textFieldText" placeholder="Copy your text in here" cols="40" rows="5"></textArea>
+		<textArea class="w3-margin w3-round" name="textFieldText" placeholder="Copy your text in here" cols="40" rows="5" required></textArea>
 		<br>
 		<input class="w3-margin w3-button w3-round w3-border" type="submit" />
 	</form>
@@ -32,9 +32,5 @@
 	<%=inputData%>
 	</b>
 	<br>
-	<p>
-	*either select a textFile or add a text to the text field<br>
-	*if both are filled only the selected file will be processed
-	</p>
 </body>
 </html>

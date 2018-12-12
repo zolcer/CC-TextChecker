@@ -52,45 +52,40 @@ public class IndexServlet extends HttpServlet {
 
 		String file_name = null;
 		boolean isMultipartContent = ServletFileUpload.isMultipartContent(request);
-		if (!isMultipartContent) {
-			return;
-		}
-		FileItemFactory factory = new DiskFileItemFactory();
-		ServletFileUpload upload = new ServletFileUpload(factory);
-		try {
-			List<FileItem> fields = upload.parseRequest(request);
-			Iterator<FileItem> it = fields.iterator();
-			if (!it.hasNext()) {
-				return;
-			}
-			while (it.hasNext()) {
-				FileItem fileItem = it.next();
-				boolean isFormField = fileItem.isFormField();
-				if (isFormField) {
-					if (file_name == null) {
-						if (fileItem.getFieldName().equals("file_name")) {
-							file_name = fileItem.getString();
-							fileName = file_name;
+		if (isMultipartContent) {
+			FileItemFactory factory = new DiskFileItemFactory();
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			try {
+				List<FileItem> fields = upload.parseRequest(request);
+				Iterator<FileItem> it = fields.iterator();
+				if (!it.hasNext()) {
+					return;
+				}
+				while (it.hasNext()) {
+					FileItem fileItem = it.next();
+					boolean isFormField = fileItem.isFormField();
+					if (isFormField) {
+						if (file_name == null) {
+							if (fileItem.getFieldName().equals("file_name")) {
+								file_name = fileItem.getString();
+								fileName = file_name;
+							}
+						}
+					} else {
+						if (fileItem.getSize() > 0) {
+							fileName = fileItem.getName();
+							fileItem.write(new File(fileName));
 						}
 					}
-				} else {
-					if (fileItem.getSize() > 0) {
-						fileName = fileItem.getName();
-						fileItem.write(new File(fileName));
-					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if (fileName.isEmpty() || fileName == null) {
-			inputFileString = request.getParameter("textFieldText");
-			fileName = "";
-		} else {
 			processInputFile();
+		} else if (!isMultipartContent
+				&& (request.getParameter("textFieldText") != null && request.getParameter("textFieldText") != "")) {
+			inputFileString = request.getParameter("textFieldText");
 		}
-
 		TextComparer checker = new TextComparer();
 		Pair<Integer, Collection<String>> result = checker.checkText(inputFileString);
 
