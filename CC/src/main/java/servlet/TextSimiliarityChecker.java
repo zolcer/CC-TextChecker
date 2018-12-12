@@ -86,8 +86,9 @@ public class TextSimiliarityChecker {
         Thread t[] = new Thread[NUM_THREADS];
 
         for (int i = 0; i < NUM_THREADS; i++) {
-            r[i] = new Checker(fileNames.subList(0 + i * ((fileNames.size() - 0 + 1) / NUM_THREADS), 0 + i * ((fileNames.size() - 0 + 1) / NUM_THREADS) + ((fileNames.size() - 0 + 1) / NUM_THREADS) - 1), textToCheck, client);
-            log.info("Making Checker runnable " + i + " with sublist range: " + (0 + i * ((fileNames.size() - 0 + 1) / NUM_THREADS)) + " - " + (0 + i * ((fileNames.size() - 0 + 1) / NUM_THREADS) + ((fileNames.size() - 0 + 1) / NUM_THREADS) - 1));
+            //range comp: start(0) + i * (size - start + 1)/num threads; start + i * ((size - start + 1) / num threads) + ((size - start + 1)/num threads) - 1
+            r[i] = new Checker(fileNames.subList(i * ((fileNames.size() + 1) / NUM_THREADS), i * ((fileNames.size() + 1) / NUM_THREADS) + ((fileNames.size() + 1) / NUM_THREADS) - 1), textToCheck, client);
+            log.info("Making Checker runnable " + i + " with sublist range: " + (i * ((fileNames.size() + 1) / NUM_THREADS)) + " - " + (i * ((fileNames.size() + 1) / NUM_THREADS) + ((fileNames.size() + 1) / NUM_THREADS) - 1));
         }
 
         for (int i = 0; i < NUM_THREADS; i++) {
@@ -106,12 +107,6 @@ public class TextSimiliarityChecker {
             scoresWithNames.putAll(r[i].getThreadResult());
         }
 
-        /*for (String fileName : fileNames) {
-            S3Object object = client.getObject(BUCKET_NAME, fileName);
-            S3ObjectInputStream inputStream = object.getObjectContent();
-            String textContent = com.amazonaws.util.IOUtils.toString(inputStream);
-            scoresWithNames.put(getSimiliariryScore(textToCheck, textContent), fileName);
-        }*/
 
         // TODO What happens when 2 files have same score
         Double maxScore = Collections.max(scoresWithNames.keySet());
