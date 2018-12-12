@@ -10,10 +10,14 @@
 <body>
 <h1>Text Checker</h1>
 <h2>Please choose file or copy your text to the textfield</h2>
-<form action="IndexServlet" method="post">
-<br>
+<h3>Select a file to check for similarities</h3>
+<form action="IndexServlet" method="post" enctype="multipart/form-data">
 <input type="file" name="file" />
 <br>
+<input type="submit" />
+</form>
+<h3>Copy text which you can check for similarities</h3>
+<form action="IndexServlet" method="post">
 <textArea name="textFieldText" placeholder="Copy your text in here" cols="40" rows="5"></textArea>
 <br>
 <input type="submit" />
@@ -25,6 +29,11 @@
 	%>
 
 <%=inputData%>
+<br>
+<p>
+*either select a textFile or add a text to the text field<br>
+*if both are fulfilled only the selected file will be proceeded
+</p>
 
 
 </body>
