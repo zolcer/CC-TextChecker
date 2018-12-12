@@ -5,37 +5,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Text Checker v.0.1</title>
 </head>
 <body>
-<%
-String jspPath = "D:\\Martin\\Documents\\UNI\\WS 18\\CC\\PaaS\\petovProjekt\\CC-TextChecker\\CC\\WebContent\\WEB-INF\\README.txt";
-BufferedReader reader = new BufferedReader(new FileReader(jspPath));
-//BufferedReader br = new InputStreamReader(new FileInputStream(txtFilePath));
-StringBuilder sb = new StringBuilder();
-String line = reader.readLine();
-String wholeDocument = "";
-
-while(line != null)
-{
-	wholeDocument = wholeDocument + line;
-	line = reader.readLine();
-}
-
-reader.close();
-%>
-<form action="IndexServlet" method="post"
-                        enctype="multipart/form-data">
-<input type="text" name="description" />
+<h1>Text Checker</h1>
+<h2>Please choose file or copy your text to the textfield</h2>
+<form action="IndexServlet" method="post">
 <br>
 <input type="file" name="file" />
+<br>
+<textArea name="textFieldText" placeholder="Copy your text in here" cols="40" rows="5"></textArea>
 <br>
 <input type="submit" />
 </form>
 
-<% String inputData=(String)request.getAttribute("inputData"); %>
+<% String inputData=(String)request.getAttribute("inputData");
+	if (inputData == null) 
+		inputData = "";
+	%>
 
-Value is: <%=inputData%>
+<%=inputData%>
 
 
 </body>

@@ -62,12 +62,16 @@ public class IndexServlet extends HttpServlet {
         // fileContent = filePart.getInputStream();
         // System.out.println(filePart);
         // doGet(request, response);
-        processInputFile();
+//        processInputFile();
+    		inputFileString = request.getParameter("textFieldText"); 
+    		System.out.println(inputFileString);
+
 
         TextSimiliarityChecker checker = new TextSimiliarityChecker();
         Pair<Double, String> result = checker.checkText(inputFileString);
+        double similarityPercentage = convertScoreToPercentage(result.getLeft());
 
-        String toPrint = "Most similiar file was: " + result.getRight() + " with score: " + result.getLeft();
+        String toPrint = "Most similiar file was: " + result.getRight() + " with similarity of: " + similarityPercentage +"%";
 
         request.setAttribute("inputData", toPrint);
 
@@ -91,6 +95,14 @@ public class IndexServlet extends HttpServlet {
         inputFileString = wholeDocument;
         System.out.println("INPUT: " + inputFileString);
         reader.close();
+    }
+    
+    double convertScoreToPercentage(double score)
+    {
+    		Double percentage = 1 - score;
+    		
+		return percentage*100;
+    	
     }
 
 }
